@@ -66,7 +66,7 @@ public class SlackClient {
     public CucumberResult processResults(JsonElement resultElement) {
         int totalScenarios = 0;
         int passPercent = 0;
-        List<FeatureResult> results = new ArrayList<FeatureResult>();
+        List<FeatureResult> results = new ArrayList<>();
         JsonArray features = resultElement.getAsJsonArray();
         int failedScenarios = 0;
         for (JsonElement featureElement : features) {
@@ -91,12 +91,12 @@ public class SlackClient {
                 }
             }
             totalScenarios = totalScenarios + scenariosTotal;
-            final int scenarioPassPercent = Math.round(((scenariosTotal - failed) * 100) / scenariosTotal);
+            final int scenarioPassPercent = ((scenariosTotal - failed) * 100) / scenariosTotal;
             if (scenarioPassPercent != 100 || !hideSuccessfulResults) {
                 results.add(new FeatureResult(feature.get("uri").getAsString(), feature.get("name").getAsString(), scenarioPassPercent));
             }
         }
-        passPercent = Math.round(((totalScenarios - failedScenarios) * 100) / totalScenarios);
+        passPercent = ((totalScenarios - failedScenarios) * 100) / totalScenarios;
         return new CucumberResult(results, totalScenarios, passPercent);
     }
 
